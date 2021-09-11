@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from .models import User, Note
 from werkzeug.security import generate_password_hash, check_password_hash
-from . import db
+from . import db, static
 from flask_login import login_user, login_required, logout_user, current_user
 
 auth = Blueprint("auth", __name__)
@@ -60,8 +60,8 @@ def sign_up():
            new_user = User(email=email, first_name=first_name, last_name=last_name, password=generate_password_hash(password1, method="sha256"))
            db.session.add(new_user)
            db.session.commit()
-           login_user(user, remember=True)
-           flash("Account Created.", category="Successful")
+           # login_user(user, remember=True)
+           flash("Account Created.", category="success")
            return redirect(url_for("views.home"))
 
     return render_template("sign_up.html", user=current_user)
